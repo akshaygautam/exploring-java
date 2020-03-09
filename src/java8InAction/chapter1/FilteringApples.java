@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 
 public class FilteringApples {
 
@@ -43,7 +44,7 @@ public class FilteringApples {
 		
 		List<Apple> weirdAppleLambda = filterApples(inventory, (Apple a)->a.getWeight() > 180 && a.getColor().equals("brown"));
 		System.out.println(weirdAppleLambda);
-		
+
 		
 	} 
 
