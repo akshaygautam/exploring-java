@@ -1,6 +1,9 @@
 package methodRefrencing;
 
 import java.util.Date;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class DemoMethodReferencingTest {
 
@@ -20,6 +23,29 @@ public class DemoMethodReferencingTest {
 		//Setting new implementation
 		date = DemoMethodReferencing::getOldDate;
 		System.out.println(date.use());
+		
+		
+		//Constructor referencing
+		// Default constructor
+		Supplier<DemoMethodReferencing> c1 = DemoMethodReferencing::new;
+		
+		DemoMethodReferencing object = c1.get();
+		System.out.println(object.notStatic());
+		
+		//Parameterized constructor
+		Function<Integer, DemoMethodReferencing> c2 = DemoMethodReferencing::new;
+		object = c2.apply(10);
+		System.out.println(object.getInstanceVariable());
+		
+		//Double parameters
+		BiFunction<Integer, Integer, DemoMethodReferencing> c3 = DemoMethodReferencing::new;
+		object = c3.apply(18, 17);
+		System.out.println(object.getSum());
+		
+		testMultipleArgumentConst<Integer, Integer, String, String, DemoMethodReferencing> c4 = DemoMethodReferencing::new;
+		object = c4.apply(34, 23, "Multiple", "yeh its working");
+		
+		System.out.println(object.getAll());
 	}
 
 }
@@ -34,4 +60,8 @@ interface testFunString {
 
 interface testFunSqr {
 	int use(int n);
+}
+
+interface testMultipleArgumentConst<T, U, V, A,  R>{
+	R apply(T t, U u, A a, V v);
 }
