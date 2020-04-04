@@ -1,4 +1,5 @@
-package methodRefrencing;
+package java8InAction.chapter2.methodRefrencing;
+
 
 import java.util.Date;
 
