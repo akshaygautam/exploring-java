@@ -1,4 +1,4 @@
-package java8InAction.chapter2.methodRefrencing;
+package java8InAction.chapter3.methodRefrencing;
 
 import java.util.Date;
 import java.util.function.BiFunction;
