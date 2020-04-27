@@ -3,11 +3,11 @@ package java8InAction.chapter7;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
+import java.util.stream.LongStream;
 
 public class ForkJoinDemo {
 	public static void main(String[] args) {
-		long[] l =  new long[10_000_000];
-		for(int i=1; i<=10_000_000; i++) l[i-1] = i; 
+		long[] l = LongStream.rangeClosed(1, 10_000_000).toArray();
 		ForkJoinTask<Long>sum = new ForkJoinSum(l);
 		System.out.println(new ForkJoinPool().invoke(sum));
 	}
