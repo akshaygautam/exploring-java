@@ -20,8 +20,14 @@ public class ComparisonStreams {
 		 */
 		
 		System.out.println("--------Efficient way---------");
-		System.out.println("Sequential sum is done in: "+measurePerformance(ComparisonStreams::sequentialSumEf, 10_000_000)+" msecs");
-		System.out.println("Parallel sum is done in: "+measurePerformance(ComparisonStreams::parallelSumEf, 10_000_000)+" msecs");
+		System.out.println("Sequential Ef sum is done in: "+measurePerformance(ComparisonStreams::sequentialSumEf, 10_000_000)+" msecs");
+		System.out.println("Parallel Ef sum is done in: "+measurePerformance(ComparisonStreams::parallelSumEf, 10_000_000)+" msecs");
+		
+		
+		
+		System.out.println("---------- Accumulator Inconsistency--------------");
+		System.out.println("Sequential Acc sum is done in: "+measurePerformance(ComparisonStreams::seqSideEffect, 10_000_000)+" msecs");
+		System.out.println("Parallel Acc sum is done in: "+measurePerformance(ComparisonStreams::parallelSideEffect, 10_000_000)+" msecs");
 	}
 	
 	public static long measurePerformance(Function<Long, Long> adder, long n) {
@@ -70,6 +76,25 @@ public class ComparisonStreams {
 				.parallel()
 //				.reduce(0L, Long::sum);
 				.sum();
+	}
+	
+	public static long seqSideEffect(long n) {
+		Accumulator accumulator = new Accumulator();
+		LongStream.rangeClosed(1, n).forEach(accumulator::add);
+		return accumulator.total;
+	}
+	
+	public static long parallelSideEffect(long n) {
+		Accumulator accumulator = new Accumulator();
+		LongStream.rangeClosed(1, n).parallel().forEach(accumulator::add);
+		return accumulator.total;
+	}
+	
+	private static class Accumulator{
+		public long total = 0;
+		public void add(long value) {
+			total += value;
+		}
 	}
 
 }
